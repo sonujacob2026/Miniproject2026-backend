@@ -69,6 +69,40 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Supabase connectivity health check
+app.get('/health/supabase', async (req, res) => {
+  try {
+    // Run a very light check: select 1 via an inexpensive table
+    // Prefer a table that always exists in this project: user_profiles
+    const { data, error, count } = await supabase
+      .from('user_profiles')
+      .select('id', { count: 'exact', head: true })
+      .limit(1);
+
+    if (error) {
+      return res.status(500).json({
+        status: 'ERROR',
+        message: 'Supabase query failed',
+        error
+      });
+    }
+
+    return res.json({
+      status: 'OK',
+      message: 'Supabase reachable and responding',
+      table: 'user_profiles',
+      approxCount: typeof count === 'number' ? count : null,
+      timestamp: new Date().toISOString()
+    });
+  } catch (e) {
+    return res.status(500).json({
+      status: 'ERROR',
+      message: 'Supabase connectivity check exception',
+      error: e?.message || String(e)
+    });
+  }
+});
+
 // JWT Authentication middleware
 const jwtAuthMiddleware = (req, res, next) => {
   const authHeader = req.headers['authorization'];
