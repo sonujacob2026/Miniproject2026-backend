@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.0",
+    "openai": "^6.4.0",
     "razorpay": "^2.9.6"
   },
   "devDependencies": {

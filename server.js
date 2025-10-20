@@ -10,6 +10,7 @@ require('dotenv').config();
 // Import routes
 const incomeCategoriesRoutes = require('./routes/incomeCategories');
 const categoryTypeRoutes = require('./routes/categoryTypes');
+const ocrRoutes = require('./routes/ocrRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,8 @@ app.use(express.json());
 app.use('/api', incomeCategoriesRoutes);
 // Mount category types router at the expected base path used by the frontend
 app.use('/api/category-types', categoryTypeRoutes);
+// Mount OCR routes for receipt processing
+app.use('/api/ocr', ocrRoutes);
 
 // Razorpay client
 const razorpay = new Razorpay({
