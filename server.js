@@ -11,6 +11,7 @@ require('dotenv').config();
 const incomeCategoriesRoutes = require('./routes/incomeCategories');
 const categoryTypeRoutes = require('./routes/categoryTypes');
 const ocrRoutes = require('./routes/ocrRoutes');
+const adminPasswordRoutes = require('./routes/adminPassword');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,6 +45,8 @@ app.use('/api', incomeCategoriesRoutes);
 app.use('/api/category-types', categoryTypeRoutes);
 // Mount OCR routes for receipt processing
 app.use('/api/ocr', ocrRoutes);
+// Mount admin password routes
+app.use('/api/admin', adminPasswordRoutes);
 
 // Razorpay client
 const razorpay = new Razorpay({
